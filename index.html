@@ -1,0 +1,590 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="AI with Zeph: practical AI for busy people. Tested tools, 60-second tutorials and ready-to-use prompts that save real hours every week.">
+<meta property="og:title" content="AI with Zeph">
+<meta property="og:description" content="Practical AI, tested on real work. Free AI Agents Starter Kit and 50 prompts.">
+<link rel="icon" href="img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>AI with Zeph</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: a pearl-white lab bench, the colour of Zeph's armour. Glossy black "visor" panels carry the light and the motion. Single light look by design. */
+:root{
+  --pearl:#e9ecf3;      /* page ground, armour shadow */
+  --shell:#f8f9fc;      /* raised armour plates */
+  --visor:#0b1020;      /* faceplate black */
+  --ink:#0b1020;
+  --mute:#4a5372;
+  --line:#cfd5e3;
+  --cyan:#22D3EE;       /* visor light, on dark only */
+  --teal:#0e7490;       /* cyan for text on pearl */
+  --violet:#A855F7;
+  --plum:#7e22ce;       /* violet for text on pearl */
+  --on-visor:#eef1f8;
+  --on-visor-mute:#c5cde0;
+  --display:"Outfit","Helvetica Neue",Arial,sans-serif;
+  --body:"Plus Jakarta Sans","Segoe UI",system-ui,sans-serif;
+  --plate:inset 0 1px 0 #fff,0 36px 60px -40px rgba(40,50,110,.42);
+  --deep:inset 0 2px 0 rgba(255,255,255,.16),0 60px 100px -50px rgba(40,30,110,.75);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;overflow-x:clip}
+body{margin:0;background:var(--pearl);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;overflow-x:clip;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--pearl)}
+a{color:inherit}
+img{max-width:100%;height:auto;display:block}
+p{margin:0}
+h1,h2,h3{font-family:var(--display);font-weight:600;margin:0;text-wrap:balance;letter-spacing:-.035em;line-height:1}
+h2{font-size:clamp(2.3rem,4.6vw,3.6rem)}
+.wrap{max-width:1240px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.eyebrow{font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--teal)}
+.eyebrow.plum{color:var(--plum)}
+.on-visor .eyebrow{color:var(--cyan)}
+:focus-visible{outline:3px solid var(--teal);outline-offset:3px;border-radius:8px}
+.on-visor :focus-visible{outline-color:var(--cyan)}
+
+/* buttons */
+.btn{position:relative;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;gap:.5em;text-decoration:none;font-weight:600;padding:16px 28px;border-radius:999px;border:0;cursor:pointer;font-family:var(--body);font-size:1rem;transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s}
+.btn-dark{background:var(--visor);color:#fff}
+.btn-dark:hover{transform:translateY(-3px);box-shadow:0 22px 44px -14px rgba(11,16,32,.6),0 0 0 4px rgba(34,211,238,.35)}
+.btn-plate{background:var(--shell);color:var(--ink);box-shadow:inset 0 1px 0 #fff,0 14px 30px -18px rgba(40,50,110,.5)}
+.btn-plate:hover{transform:translateY(-3px);box-shadow:inset 0 1px 0 #fff,0 22px 40px -18px rgba(40,50,110,.6)}
+.btn-white{background:#fff;color:var(--ink);font-weight:700}
+.btn-white:hover{transform:translateY(-3px);box-shadow:0 20px 44px -12px rgba(34,211,238,.7)}
+.btn-line{color:var(--on-visor);border:1px solid rgba(200,215,255,.4);background:rgba(11,16,32,.5)}
+.btn-line:hover{border-color:var(--cyan);color:var(--cyan)}
+.btn::after{content:"";position:absolute;top:0;bottom:0;left:-60%;width:40%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);animation:sheen 5s ease-in-out infinite}
+.btn-plate::after,.btn-line::after{display:none}
+@keyframes sheen{0%,70%{left:-60%}100%{left:130%}}
+
+/* nav */
+header.top{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);z-index:20;padding-top:8px}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:10px 12px 10px 18px;background:rgba(248,249,252,.82);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-radius:999px;box-shadow:inset 0 1px 0 #fff,0 24px 50px -28px rgba(40,50,110,.45)}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;font-family:var(--display);font-weight:600;font-size:1.15rem;white-space:nowrap}
+.brand img{width:40px;height:40px;border-radius:50%}
+.nav ul{display:flex;gap:30px;list-style:none;margin:0;padding:0;font-size:.93rem;font-weight:600}
+.nav ul a{text-decoration:none;color:var(--mute);transition:color .2s}
+.nav ul a:hover{color:var(--ink)}
+.nav .btn{padding:12px 22px;font-size:.93rem;gap:.28em;white-space:nowrap}
+@media (max-width:900px){.nav ul{display:none}}
+@media (max-width:420px){.nav .long{display:none}}
+
+/* hero */
+.hero{padding-block:64px 90px}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+.hero-copy{display:flex;flex-direction:column;gap:26px;min-width:0}
+.pill{align-self:flex-start;display:inline-flex;align-items:center;gap:10px;background:var(--visor);color:#fff;border-radius:999px;padding:8px 16px 8px 12px;font-size:.8rem;font-weight:600;letter-spacing:.04em}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--cyan);box-shadow:0 0 12px var(--cyan);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.35;transform:scale(.7)}}
+.hero h1{font-size:clamp(2.9rem,6.3vw,4.9rem);line-height:.98}
+.hero h1 .line{display:block;overflow:hidden;padding-bottom:.08em}
+.hero h1 .line > span{display:inline-block;animation:rise .9s cubic-bezier(.2,.8,.2,1) both}
+.hero h1 .line:nth-child(2) > span{animation-delay:.12s}
+.hero h1 .line:nth-child(3) > span{animation-delay:.24s}
+@keyframes rise{from{transform:translateY(110%)}to{transform:none}}
+.shimmer{background:linear-gradient(100deg,var(--plum) 0%,var(--plum) 35%,#0891b2 50%,var(--plum) 65%,var(--plum) 100%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmer 4.5s linear infinite}
+@keyframes shimmer{from{background-position:120% 0}to{background-position:-130% 0}}
+.fade-up{animation:fadeUp .9s cubic-bezier(.2,.8,.2,1) both}
+.d1{animation-delay:.35s}.d2{animation-delay:.48s}.d3{animation-delay:.6s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+.lede{font-size:1.14rem;color:var(--mute);max-width:44ch}
+.ctas{display:flex;flex-wrap:wrap;gap:12px}
+.stats{display:flex;flex-wrap:wrap;gap:14px 40px;padding-top:22px;border-top:1px solid var(--line)}
+.stats div{display:flex;flex-direction:column}
+.stats b{font-family:var(--display);font-weight:600;font-size:2.1rem;line-height:1.1;font-variant-numeric:tabular-nums}
+.stats div > span{font-size:.85rem;color:var(--mute)}
+
+.stage{position:relative;padding-top:70px;max-width:560px;width:100%;justify-self:center;animation:fadeUp 1.1s cubic-bezier(.2,.8,.2,1) .15s both}
+.visor{position:absolute;inset:70px 0 0 0;border-radius:56px;overflow:hidden;background:radial-gradient(120% 90% at 70% 10%,#2a1a52 0%,#0b1020 55%,#05070f 100%);box-shadow:inset 0 2px 0 rgba(255,255,255,.18),inset 0 0 0 1px rgba(34,211,238,.25),0 70px 110px -50px rgba(40,30,110,.75)}
+.visor canvas{position:absolute;inset:0;width:100%;height:100%}
+.bar{position:absolute;top:42px;height:5px;border-radius:5px}
+.bar.c{left:40px;width:120px;background:var(--cyan);box-shadow:0 0 18px var(--cyan);animation:scan 3.2s ease-in-out infinite;transform-origin:left}
+.bar.v{right:40px;width:60px;background:var(--violet);box-shadow:0 0 18px var(--violet);animation:scan 2.4s ease-in-out .6s infinite;transform-origin:right}
+@keyframes scan{50%{transform:scaleX(.35);opacity:.6}}
+.ring{position:absolute;left:50%;top:58%;width:118%;aspect-ratio:1;transform:translate(-50%,-50%) rotateX(74deg);border-radius:50%;border:1px solid rgba(34,211,238,.45);box-shadow:0 0 30px rgba(34,211,238,.25)}
+.ring i{position:absolute;inset:0;border-radius:50%;animation:spin 9s linear infinite}
+.ring i::before{content:"";position:absolute;left:50%;top:-7px;width:14px;height:14px;margin-left:-7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 24px 6px rgba(34,211,238,.8)}
+.ring.two{width:86%;border-color:rgba(168,85,247,.5)}
+.ring.two i{animation-duration:6s;animation-direction:reverse}
+.ring.two i::before{background:var(--violet);box-shadow:0 0 24px 6px rgba(168,85,247,.8)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.zclip{position:relative;margin-top:-70px;border-radius:0 0 56px 56px;overflow:hidden;display:flex;justify-content:center}
+.zpar{width:82%;max-width:440px;transform:translate(calc(var(--mx,0)*-12px),calc(var(--my,0)*-8px));transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.zpar img{width:100%;margin-bottom:-18px;filter:drop-shadow(0 30px 50px rgba(34,211,238,.3));animation:float 6s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+.chip{position:absolute;background:var(--shell);border-radius:18px;padding:14px 18px;box-shadow:inset 0 1px 0 #fff,0 30px 50px -22px rgba(11,16,32,.55);display:flex;flex-direction:column;max-width:210px;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.chip b{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--teal)}
+.chip span{font-weight:600;font-size:.92rem;line-height:1.35}
+.chip.a{left:-18px;bottom:64px;transform:translate(calc(var(--mx,0)*16px),calc(var(--my,0)*12px))}
+.chip.b{right:-14px;top:84px;transform:translate(calc(var(--mx,0)*24px),calc(var(--my,0)*16px));flex-direction:row;align-items:center;gap:10px}
+.chip.a > div,.chip.b > div{display:flex;flex-direction:column;animation:float 7s ease-in-out -2s infinite}
+.chip.b > div{flex-direction:row;align-items:center;gap:10px;animation-duration:5s}
+@media (max-width:940px){.hero-grid{grid-template-columns:1fr;gap:44px}.stage{max-width:440px}.chip.a{left:0}.chip.b{right:0}}
+@media (max-width:940px){.hero{padding-block:36px 70px}}
+@media (max-width:560px){.chip.b{display:none}.chip.a{bottom:18px;left:10px}}
+
+/* ticker */
+.ticker{background:var(--visor);color:var(--on-visor);padding-block:18px;transform:rotate(-1.4deg) scale(1.03);box-shadow:0 30px 60px -30px rgba(40,30,110,.7);overflow:hidden}
+.ticker .track{display:flex;width:max-content;animation:slide 32s linear infinite}
+.ticker:hover .track{animation-play-state:paused}
+.ticker span{display:inline-flex;align-items:center;gap:28px;padding-right:28px;font-family:var(--display);font-weight:500;font-size:1.5rem;white-space:nowrap}
+.ticker span::after{content:"";width:9px;height:9px;border-radius:50%;background:var(--cyan);box-shadow:0 0 12px var(--cyan)}
+.ticker span:nth-child(even)::after{background:var(--violet);box-shadow:0 0 12px var(--violet)}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+/* socials */
+.follow{padding-block:80px 96px}
+.follow .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:14px 16px}
+.follow .eyebrow{color:var(--mute);margin-right:14px}
+.follow a{padding:12px 24px}
+
+section.block{padding-bottom:110px}
+.head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:18px 60px;margin-bottom:44px}
+.head p{color:var(--mute);max-width:40ch}
+
+/* guide + prompts */
+.duo{display:flex;flex-wrap:wrap;gap:24px}
+.guide{position:relative;overflow:hidden;flex:2 1 560px;min-width:0;border-radius:40px;padding:52px;color:var(--on-visor);background:radial-gradient(90% 120% at 100% 0%,#2a1a52 0%,#0b1020 55%,#05070f 100%);box-shadow:var(--deep);display:flex;flex-wrap:wrap;gap:40px;align-items:center}
+.guide::before{content:"";position:absolute;width:520px;height:520px;right:-140px;top:-160px;border-radius:50%;background:radial-gradient(circle,rgba(34,211,238,.35),transparent 65%);animation:drift 9s ease-in-out infinite}
+@keyframes drift{50%{transform:translate(-90px,70px) scale(1.15)}}
+.guide-copy{position:relative;flex:1 1 280px;min-width:0;display:flex;flex-direction:column;gap:20px;align-items:flex-start}
+.guide-gamma{background:radial-gradient(90% 120% at 0% 0%,#123a4a 0%,#0b1020 55%,#05070f 100%)}.guide-gamma::before{left:-140px;right:auto;background:radial-gradient(circle,rgba(168,85,247,.38),transparent 65%)}
+.guide h2{font-size:clamp(2.1rem,3.8vw,2.9rem);line-height:1.02;letter-spacing:-.03em}
+.guide p{color:var(--on-visor-mute)}
+.cover{position:relative;flex:0 1 240px;width:240px;max-width:100%;animation:hover3d 7s ease-in-out infinite}
+.cover img{border-radius:12px;box-shadow:0 40px 70px -24px rgba(34,211,238,.55),0 0 0 1px rgba(34,211,238,.4)}
+@keyframes hover3d{0%,100%{transform:perspective(900px) rotateY(-10deg) rotateZ(3deg) translateY(0)}50%{transform:perspective(900px) rotateY(8deg) rotateZ(5deg) translateY(-14px)}}
+.prompts{flex:1 1 300px;min-width:0;border-radius:40px;padding:44px;background:var(--shell);box-shadow:var(--plate);display:flex;flex-direction:column;gap:18px;align-items:flex-start}
+.prompts h3{font-size:2.1rem;line-height:1.05;letter-spacing:-.02em}
+.prompts p{color:var(--mute)}
+.term{align-self:stretch;background:var(--visor);color:#cfd6ea;border-radius:18px;padding:18px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.8rem;line-height:1.7;min-height:11.5em}
+.term .v{color:var(--cyan)}
+.caret{display:inline-block;width:8px;height:1.05em;vertical-align:-.18em;background:var(--cyan);margin-left:2px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.textlink{margin-top:auto;font-weight:700;text-decoration:none;border-bottom:2px solid var(--ink);padding-bottom:2px;transition:color .2s,border-color .2s}
+.textlink:hover{color:var(--teal);border-color:var(--teal)}
+
+/* toolkit */
+.tools{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px;perspective:1400px}
+.tool{position:relative;overflow:hidden;background:var(--shell);border-radius:32px;padding:30px;box-shadow:var(--plate);display:flex;flex-direction:column;gap:16px;min-width:0;transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateY(var(--ty,0));transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s;transform-style:preserve-3d}
+.tool:hover{--ty:-8px;box-shadow:inset 0 1px 0 #fff,0 54px 80px -36px rgba(40,50,110,.5)}
+.tool::after{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(380px circle at var(--px,50%) var(--py,-40%),rgba(34,211,238,.2),transparent 60%);opacity:0;transition:opacity .3s;pointer-events:none}
+.tool:hover::after{opacity:1}
+.tool .top{display:flex;justify-content:space-between;align-items:center}
+.badge{width:58px;height:58px;border-radius:18px;background:var(--visor);color:var(--cyan);display:grid;place-items:center;font-family:var(--display);font-weight:600;font-size:1.35rem;box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 14px 24px -10px rgba(11,16,32,.6);transition:transform .4s cubic-bezier(.2,.8,.2,1),box-shadow .4s}
+.tool:hover .badge{transform:rotate(-8deg) scale(1.08);box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 0 28px rgba(34,211,238,.7)}
+.tag{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.tool h3{font-size:1.75rem;letter-spacing:-.02em}
+.tool > p{color:var(--mute);font-size:.95rem}
+.tool .tip{font-size:.9rem;background:var(--pearl);border-radius:14px;padding:12px 14px;color:var(--ink)}
+.tool .btn{margin-top:auto;padding:13px 20px}
+.disclose{margin-top:26px;font-size:.84rem;color:var(--mute);max-width:80ch}
+@media (max-width:1060px){.tools{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.tools{grid-template-columns:1fr}}
+
+/* series */
+.series{position:relative;overflow:hidden;border-radius:40px;padding:56px;color:var(--on-visor);background:radial-gradient(80% 120% at 0% 100%,#10344a 0%,#0b1020 50%,#05070f 100%);box-shadow:var(--deep);display:flex;flex-wrap:wrap;gap:48px}
+.series-copy{flex:1 1 300px;min-width:0;display:flex;flex-direction:column;gap:20px;align-items:flex-start}
+.series h2{font-size:clamp(2.2rem,4vw,3.1rem)}
+.series-copy p{color:var(--on-visor-mute)}
+.meter{align-self:stretch;display:flex;flex-direction:column;gap:8px;font-size:.82rem;color:var(--on-visor-mute)}
+.meter i{display:block;height:6px;border-radius:6px;background:rgba(200,215,255,.18);overflow:hidden}
+.meter i::before{content:"";display:block;height:100%;width:100%;border-radius:6px;background:linear-gradient(90deg,var(--cyan),var(--violet));box-shadow:0 0 14px var(--cyan);transform-origin:left;transition:transform 1.6s cubic-bezier(.2,.8,.2,1) .3s}
+.js .reveal:not(.in) .meter i::before{transform:scaleX(0)}
+.eps{flex:1.4 1 420px;min-width:0;display:flex;flex-direction:column;list-style:none;margin:0;padding:0}
+.eps li{border-bottom:1px solid rgba(200,215,255,.18)}
+.eps li:last-child{border-bottom:0}
+.eps a,.eps div{display:flex;align-items:center;gap:20px;padding:17px 8px;text-decoration:none;color:var(--on-visor);border-radius:12px;transition:background .25s,padding .25s}
+.eps a:hover{background:rgba(34,211,238,.1);padding-left:18px}
+.eps .n{font-family:var(--display);font-size:1.4rem;color:var(--cyan);width:30px}
+.eps .t{flex:1;font-weight:600;font-size:1.06rem}
+.eps .s{font-size:.8rem;color:var(--on-visor-mute);display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+.eps .soon .n,.eps .soon .s{color:#c9a2ff}
+.eps .soon .t{color:var(--on-visor-mute)}
+@media (max-width:640px){.series,.guide{padding:34px 26px}.prompts{padding:34px 26px}}
+
+/* about */
+.about{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.about-copy{display:flex;flex-direction:column;gap:22px}
+.about-copy p{color:var(--mute);max-width:50ch}
+.photo{justify-self:center;max-width:500px;width:100%;border-radius:48px;overflow:hidden;box-shadow:0 0 0 10px var(--shell),0 60px 90px -40px rgba(40,30,110,.7)}
+.photo img{width:100%;animation:breathe 14s ease-in-out infinite}
+@keyframes breathe{50%{transform:scale(1.07)}}
+@media (max-width:900px){.about{grid-template-columns:1fr;gap:44px}}
+
+/* final */
+.final{position:relative;border-radius:48px;overflow:hidden;background:var(--visor);color:var(--on-visor);box-shadow:var(--deep)}
+.final img{position:absolute;right:0;top:0;height:100%;max-width:none;width:68%;object-fit:cover;object-position:70% 30%;-webkit-mask-image:linear-gradient(90deg,transparent,#000 55%);mask-image:linear-gradient(90deg,transparent,#000 55%);animation:breathe 16s ease-in-out infinite}
+.final-copy{position:relative;padding:76px 60px;max-width:620px;display:flex;flex-direction:column;gap:20px}
+.final p{color:var(--on-visor-mute)}
+@media (max-width:700px){.final img{width:100%;opacity:.45}.final-copy{padding:48px 28px}}
+
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px 32px;padding-block:28px 48px;font-size:.86rem;color:var(--mute)}
+footer nav{display:flex;flex-wrap:wrap;gap:22px;font-weight:600}
+footer a{text-decoration:none;transition:color .2s}
+footer a:hover{color:var(--ink)}
+
+/* scroll reveal: content is visible without JS; with JS it lifts in as it enters view */
+.js .reveal{opacity:0;transform:translateY(34px) scale(.985);transition:opacity .9s cubic-bezier(.2,.8,.2,1),transform .9s cubic-bezier(.2,.8,.2,1);transition-delay:var(--d,0s)}
+.js .reveal.in{opacity:1;transform:none}
+
+
+/* YouTube subscribe */
+:root{--yt:#e0002b;--yt-glow:rgba(255,0,51,.55)}
+.btn-yt{background:linear-gradient(180deg,#ff1a45,var(--yt));color:#fff;font-weight:700;box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 18px 40px -16px var(--yt-glow)}
+.btn-yt:hover{transform:translateY(-3px);box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 24px 50px -14px var(--yt-glow),0 0 0 4px rgba(255,0,51,.22)}
+.btn-yt svg{width:1.35em;height:1.35em;flex:none}
+.btn-yt svg path:first-child{fill:#fff}.btn-yt svg path:last-child{fill:var(--yt)}
+.nav-right{display:flex;align-items:center;gap:8px}
+.nav .yt-mini{width:46px;height:46px;padding:0;border-radius:50%}
+.nav .yt-mini svg{width:22px;height:22px}
+.nav .yt-mini::before{content:"";position:absolute;inset:0;border-radius:50%;box-shadow:0 0 0 0 var(--yt-glow);animation:ytping 2.6s ease-out infinite}
+@keyframes ytping{0%{box-shadow:0 0 0 0 rgba(255,0,51,.5)}70%,100%{box-shadow:0 0 0 14px rgba(255,0,51,0)}}
+.subband{padding-bottom:110px}
+.subpanel{position:relative;overflow:hidden;border-radius:40px;padding:56px;color:var(--on-visor);background:radial-gradient(70% 120% at 15% 50%,#3a0f2a 0%,#0b1020 55%,#05070f 100%);box-shadow:var(--deep);display:grid;grid-template-columns:300px 1fr;gap:56px;align-items:center}
+.subpanel::before{content:"";position:absolute;width:560px;height:560px;left:-180px;top:-200px;border-radius:50%;background:radial-gradient(circle,rgba(255,0,51,.28),transparent 65%);animation:drift 10s ease-in-out infinite}
+.subpanel::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 0 60%,rgba(34,211,238,.06));pointer-events:none}
+.ytorb{position:relative;width:260px;aspect-ratio:1;justify-self:center;display:grid;place-items:center}
+.ytorb .halo{position:absolute;inset:0;border-radius:50%;border:1px solid rgba(255,80,110,.45);animation:wave 3.2s ease-out infinite}
+.ytorb .halo:nth-child(2){animation-delay:1.06s}.ytorb .halo:nth-child(3){animation-delay:2.13s}
+@keyframes wave{from{transform:scale(.45);opacity:.9}to{transform:scale(1.15);opacity:0}}
+.ytorb .orbit{position:absolute;inset:12%;border-radius:50%;border:1px dashed rgba(34,211,238,.35);animation:spin 14s linear infinite}
+.ytorb .orbit::before{content:"";position:absolute;left:50%;top:-6px;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:var(--cyan);box-shadow:0 0 20px 5px rgba(34,211,238,.8)}
+.ytorb .core{position:relative;width:132px;height:132px;border-radius:38px;display:grid;place-items:center;background:linear-gradient(160deg,#ff3358,#c40026);box-shadow:inset 0 2px 0 rgba(255,255,255,.4),0 30px 60px -20px rgba(255,0,51,.8),0 0 70px rgba(255,0,51,.35);animation:bob 4.5s ease-in-out infinite}
+.ytorb .core svg{width:64px;height:64px}
+.ytorb .core svg path:first-child{fill:transparent}.ytorb .core svg path:last-child{fill:#fff}
+.ytorb .core::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.45) 50%,transparent 70%);background-size:250% 100%;animation:shimmer 3.8s linear infinite}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-12px) rotate(3deg)}}
+.ytorb .bell{position:absolute;right:18px;top:30px;width:52px;height:52px;border-radius:16px;background:var(--shell);display:grid;place-items:center;box-shadow:0 18px 30px -12px rgba(0,0,0,.6);animation:ring 3.6s ease-in-out infinite}
+.ytorb .bell svg{width:26px;height:26px;fill:var(--ink)}
+@keyframes ring{0%,62%,100%{transform:rotate(0)}66%{transform:rotate(16deg)}72%{transform:rotate(-14deg)}78%{transform:rotate(10deg)}84%{transform:rotate(-6deg)}}
+.subcopy{position:relative;display:flex;flex-direction:column;gap:20px;align-items:flex-start;min-width:0}
+.subcopy h2{font-size:clamp(2.2rem,4vw,3.2rem)}
+.subcopy p{color:var(--on-visor-mute);max-width:48ch}
+.subcopy .btn-yt{font-size:1.08rem;padding:18px 32px}
+.subcopy small{font-size:.84rem;color:var(--on-visor-mute);display:flex;align-items:center;gap:8px}
+.perks{display:flex;flex-wrap:wrap;gap:10px;list-style:none;margin:0;padding:0}
+.perks li{font-size:.85rem;font-weight:600;padding:8px 14px;border-radius:999px;background:rgba(200,215,255,.08);border:1px solid rgba(200,215,255,.16)}
+@media (max-width:560px){.nav .yt-mini{display:none}}
+@media (max-width:860px){.subpanel{grid-template-columns:1fr;gap:28px;padding:40px 26px;text-align:left}.ytorb{width:210px}.ytorb .core{width:110px;height:110px;border-radius:32px}.ytorb .core svg{width:54px;height:54px}}
+.ytfloat{position:fixed;right:max(18px,env(safe-area-inset-right,0px));bottom:calc(env(safe-area-inset-bottom,0px) + 18px);z-index:25;padding:14px 22px 14px 18px;transform:translateY(140%);opacity:0;transition:transform .5s cubic-bezier(.2,.8,.2,1),opacity .5s,box-shadow .25s}
+.ytfloat.show{transform:none;opacity:1}
+.ytfloat.show:hover{transform:translateY(-3px)}
+@media (max-width:420px){.ytfloat{left:16px;right:16px}}
+@media (prefers-reduced-motion:reduce){.ytfloat{transform:none}}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none !important;transition:none !important}
+  html{scroll-behavior:auto}
+  .js .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+<script>document.documentElement.classList.add('js')</script>
+<header class="top">
+  <div class="wrap">
+    <div class="nav">
+      <a class="brand" href="#top" aria-label="AI with Zeph home"><img src="img/avatar.webp" alt="" width="40" height="40">AI with Zeph</a>
+      <ul>
+        <li><a href="#guide">Free guide</a></li>
+        <li><a href="#tools">Toolkit</a></li>
+        <li><a href="#series">Series</a></li>
+        <li><a href="#about">About Zeph</a></li>
+      </ul>
+      <div class="nav-right">
+        <a class="btn btn-yt yt-mini" href="https://www.youtube.com/channel/UCjs5SjkMouRAUNhT8_gWxMQ?sub_confirmation=1" target="_blank" rel="noopener" aria-label="Subscribe on YouTube" title="Subscribe on YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8Z" fill="currentColor"/><path d="M9.6 15.6 15.8 12 9.6 8.4Z" fill="#fff"/></svg></a>
+        <a class="btn btn-dark" href="https://aiwithzeph.com/guide/">Get the <span class="long">free</span>guide</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero" aria-label="Introduction">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <span class="pill fade-up"><span class="dot"></span>Practical AI, tested on real work</span>
+        <h1><span class="line"><span>AI that actually</span></span><span class="line"><span>saves you</span></span><span class="line"><span class="shimmer">time.</span></span></h1>
+        <p class="lede fade-up d1">Zeph tests the new tools so you don't have to, then shows you the steps in 60 seconds. Clear, calm and free of jargon.</p>
+        <div class="ctas fade-up d2">
+          <a class="btn btn-dark" href="https://aiwithzeph.com/guide/">Get the free Starter Kit</a>
+          <a class="btn btn-plate" href="https://www.youtube.com/channel/UCjs5SjkMouRAUNhT8_gWxMQ" target="_blank" rel="noopener">Watch the tutorials</a>
+        </div>
+        <div class="stats fade-up d3">
+          <div><b><span data-count="60">60</span>s</b><span>tutorials, no filler</span></div>
+          <div><b data-count="50">50</b><span>free prompts</span></div>
+          <div><b data-count="12">12</b><span>page agent guide</span></div>
+        </div>
+      </div>
+      <div class="stage" id="stage">
+        <div class="visor" aria-hidden="true">
+          <canvas id="wind"></canvas>
+          <div class="ring"><i></i></div>
+          <div class="ring two"><i></i></div>
+          <div class="bar c"></div><div class="bar v"></div>
+        </div>
+        <div class="zclip"><div class="zpar"><img src="img/zeph.webp" alt="Zeph, a white-armoured robot with a glowing cyan smile, holding out a hand" width="509" height="768"></div></div>
+        <div class="chip a"><div><b>This week</b><span>Build an AI agent with no code</span></div></div>
+        <div class="chip b"><div><span class="dot"></span><span>Testing new tools</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="ticker" aria-hidden="true">
+    <div class="track">
+      <span>AI agents</span><span>Voiceovers</span><span>Slide decks in minutes</span><span>Ready-to-use prompts</span><span>Video editing</span><span>60-second tutorials</span><span>Tools worth paying for</span>
+      <span>AI agents</span><span>Voiceovers</span><span>Slide decks in minutes</span><span>Ready-to-use prompts</span><span>Video editing</span><span>60-second tutorials</span><span>Tools worth paying for</span>
+    </div>
+  </div>
+
+  <section class="follow" aria-label="Where to watch">
+    <div class="wrap reveal">
+      <span class="eyebrow">Follow @aiwithzeph</span>
+      <a class="btn btn-plate" href="https://www.youtube.com/channel/UCjs5SjkMouRAUNhT8_gWxMQ?sub_confirmation=1" target="_blank" rel="noopener">YouTube</a>
+      <a class="btn btn-plate" href="https://www.tiktok.com/@aiwithzeph" target="_blank" rel="noopener">TikTok</a>
+      <a class="btn btn-plate" href="https://www.instagram.com/aiwithzeph" target="_blank" rel="noopener">Instagram</a>
+      <a class="btn btn-plate" href="https://www.facebook.com/1400613896472879" target="_blank" rel="noopener">Facebook</a>
+      <a class="btn btn-plate" href="https://beacons.ai/aiwithzeph" target="_blank" rel="noopener">All links</a>
+    </div>
+  </section>
+
+
+  <section class="subband" id="subscribe" aria-label="Subscribe on YouTube">
+    <div class="wrap">
+      <div class="subpanel on-visor reveal">
+        <div class="ytorb" aria-hidden="true">
+          <span class="halo"></span><span class="halo"></span><span class="halo"></span>
+          <span class="orbit"></span>
+          <span class="core"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8Z" fill="currentColor"/><path d="M9.6 15.6 15.8 12 9.6 8.4Z" fill="#fff"/></svg></span>
+          <span class="bell"><svg viewBox="0 0 24 24"><path d="M12 22a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 22Zm7-6V11a7 7 0 0 0-5.5-6.84V3.5a1.5 1.5 0 0 0-3 0v.66A7 7 0 0 0 5 11v5l-2 2v1h18v-1Z"/></svg></span>
+        </div>
+        <div class="subcopy">
+          <span class="eyebrow">Free on YouTube</span>
+          <h2>Get Zeph's next tutorial first.</h2>
+          <p>New 60-second AI tutorials every week, plus honest long-form tests of the tools people are talking about. Subscribe once and the next one lands in your feed.</p>
+          <ul class="perks"><li>60-second tutorials</li><li>Honest tool tests</li><li>Free guides</li></ul>
+          <a class="btn btn-yt" href="https://www.youtube.com/channel/UCjs5SjkMouRAUNhT8_gWxMQ?sub_confirmation=1" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8Z" fill="currentColor"/><path d="M9.6 15.6 15.8 12 9.6 8.4Z" fill="#fff"/></svg>Subscribe on YouTube</a>
+          <small><span class="dot"></span>One tap. YouTube opens and asks you to confirm.</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="guide">
+    <div class="wrap duo">
+      <div class="guide on-visor reveal">
+        <div class="guide-copy">
+          <span class="eyebrow">Free guide · no sign-up</span>
+          <h2>The AI Agents Starter Kit</h2>
+          <p>Build your first AI agent with no code. Includes 10 copy-and-paste briefs, a safety checklist and a 7-day challenge.</p>
+          <a class="btn btn-white" href="https://aiwithzeph.com/guide/">Download the free PDF</a>
+        </div>
+        <div class="cover"><img src="img/guide-cover.webp" alt="Cover of The AI Agents Starter Kit" width="606" height="858" loading="lazy"></div>
+      </div>
+      <div class="prompts reveal" style="--d:.12s">
+        <span class="eyebrow plum">Also free</span>
+        <h3>50 prompts that clear your desk</h3>
+        <p>For emails, content and life admin. Works in ChatGPT, Claude and Gemini.</p>
+        <div class="term" id="term" aria-label="Sample prompt">Write a short email to <span class="v">[name]</span> about <span class="v">[topic]</span>. Keep it under 120 words and end with one clear next step.</div>
+        <a class="textlink" href="https://beacons.ai/aiwithzeph" target="_blank" rel="noopener">Get the prompt pack</a>
+      </div>
+    </div>
+    <div class="wrap" style="margin-top:24px">
+      <div class="guide guide-gamma on-visor reveal">
+        <div class="guide-copy">
+          <span class="eyebrow">New free guide · no sign-up</span>
+          <h2>The Gamma Starter Kit</h2>
+          <p>Make a complete, good-looking presentation with AI in about a minute. A 10-page guide with 10 copy-and-paste Gamma prompts.</p>
+          <a class="btn btn-white" href="https://aiwithzeph.com/gamma/">Download the free PDF</a>
+        </div>
+        <div class="cover"><img src="img/gamma-cover.webp" alt="Cover of The Gamma Starter Kit" width="606" height="858" loading="lazy"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="tools">
+    <div class="wrap">
+      <div class="head reveal">
+        <h2 style="max-width:14ch">Worth a place in your toolkit.</h2>
+        <p>Four tools Zeph has tested on real work. All have a free plan, so you can try before you pay.</p>
+      </div>
+      <div class="tools">
+        <article class="tool reveal">
+          <div class="top"><span class="badge">11</span><span class="tag">Voice</span></div>
+          <h3>ElevenLabs</h3>
+          <p>Studio-quality voiceovers from plain text.</p>
+          <p class="tip"><strong>Zeph's tip.</strong> Write short sentences and add commas where you would breathe.</p>
+          <a class="btn btn-dark" href="/elevenlabs/" data-affiliate="elevenlabs">Clone your voice</a>
+        </article>
+        <article class="tool reveal" style="--d:.08s">
+          <div class="top"><span class="badge">G</span><span class="tag">Presentations</span></div>
+          <h3>Gamma</h3>
+          <p>A short brief becomes a polished deck in minutes.</p>
+          <p class="tip"><strong>Zeph's tip.</strong> Paste your notes as an outline and choose "condense".</p>
+          <a class="btn btn-dark" href="https://try.gamma.app/jabtksrx38rf" data-affiliate="gamma" target="_blank" rel="sponsored noopener">Try it free</a>
+        </article>
+        <article class="tool reveal" style="--d:.16s">
+          <div class="top"><span class="badge">D</span><span class="tag">Video and audio</span></div>
+          <h3>Descript</h3>
+          <p>Edit video by editing the transcript.</p>
+          <p class="tip"><strong>Zeph's tip.</strong> Run "Remove filler words" first. It saves a full edit pass.</p>
+          <a class="btn btn-dark" href="#" data-affiliate="descript">Try it free</a>
+        </article>
+        <article class="tool reveal" style="--d:.24s">
+          <div class="top"><span class="badge">Ws</span><span class="tag">Writing</span></div>
+          <h3>Writesonic</h3>
+          <p>Drafts articles, product pages and ads.</p>
+          <p class="tip"><strong>Zeph's tip.</strong> Describe your reader in three bullet points first.</p>
+          <a class="btn btn-dark" href="#" data-affiliate="writesonic">Try it free</a>
+        </article>
+      </div>
+      <p class="disclose">Some links are affiliate links. If you sign up through them, AI with Zeph may earn a commission at no extra cost to you. Recommendations come from hands-on testing only.</p>
+    </div>
+  </section>
+
+  <section class="block" id="series">
+    <div class="wrap">
+      <div class="series on-visor reveal">
+        <div class="series-copy">
+          <span class="eyebrow">6-part series · complete</span>
+          <h2>AI Agents, one minute at a time.</h2>
+          <p>From "what is an agent?" to building your own, in six short episodes. The full series is out now.</p>
+          <div class="meter"><i></i><span>All 6 episodes out now</span></div>
+          <a class="btn btn-white" href="https://www.youtube.com/channel/UCjs5SjkMouRAUNhT8_gWxMQ" target="_blank" rel="noopener">Watch on YouTube</a>
+        </div>
+        <ol class="eps">
+          <li><a href="https://www.youtube.com/channel/UCjs5SjkMouRAUNhT8_gWxMQ" target="_blank" rel="noopener"><span class="n">1</span><span class="t">What is an AI agent?</span><span class="s"><span class="dot"></span>Out now</span></a></li>
+          <li><a href="https://www.youtube.com/channel/UCjs5SjkMouRAUNhT8_gWxMQ" target="_blank" rel="noopener"><span class="n">2</span><span class="t">ChatGPT agent mode</span><span class="s"><span class="dot"></span>Out now</span></a></li>
+          <li><a href="https://www.youtube.com/channel/UCjs5SjkMouRAUNhT8_gWxMQ" target="_blank" rel="noopener"><span class="n">3</span><span class="t">An agent in your own browser</span><span class="s"><span class="dot"></span>Out now</span></a></li>
+          <li><a href="https://www.youtube.com/channel/UCjs5SjkMouRAUNhT8_gWxMQ" target="_blank" rel="noopener"><span class="n">4</span><span class="t">Build your own agent, no code</span><span class="s"><span class="dot"></span>Out now</span></a></li>
+          <li><a href="https://www.youtube.com/channel/UCjs5SjkMouRAUNhT8_gWxMQ" target="_blank" rel="noopener"><span class="n">5</span><span class="t">3 jobs to give an agent today</span><span class="s"><span class="dot"></span>Out now</span></a></li>
+          <li><a href="https://www.youtube.com/channel/UCjs5SjkMouRAUNhT8_gWxMQ" target="_blank" rel="noopener"><span class="n">6</span><span class="t">Automate your daily routine</span><span class="s"><span class="dot"></span>Out now</span></a></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="about">
+    <div class="wrap about">
+      <div class="about-copy reveal">
+        <span class="eyebrow">About Zeph</span>
+        <h2>Your guide to the tools that matter.</h2>
+        <p>New AI apps launch every week, and most people don't have time to test them. Zeph does that testing for you, keeps the ones that hold up on real work, and explains them in plain English.</p>
+        <p>No hour-long videos. Just the tool, the steps and the prompt, so you can get the result yourself.</p>
+      </div>
+      <div class="photo reveal" style="--d:.12s"><img src="img/desk.webp" alt="Zeph working at a laptop surrounded by floating data panels" width="612" height="768" loading="lazy"></div>
+    </div>
+  </section>
+
+  <section class="block" aria-label="Get the free guide" style="padding-bottom:70px">
+    <div class="wrap">
+      <div class="final on-visor reveal">
+        <img src="img/banner.webp" alt="" loading="lazy">
+        <div class="final-copy">
+          <h2>Let AI handle the busywork.</h2>
+          <p>Start with the free Starter Kit, then follow along as Zeph tests what's next.</p>
+          <div class="ctas">
+            <a class="btn btn-white" href="https://aiwithzeph.com/guide/">Get the free guide</a>
+            <a class="btn btn-yt" href="https://www.youtube.com/channel/UCjs5SjkMouRAUNhT8_gWxMQ?sub_confirmation=1" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8Z" fill="currentColor"/><path d="M9.6 15.6 15.8 12 9.6 8.4Z" fill="#fff"/></svg>Subscribe on YouTube</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 AI with Zeph · @aiwithzeph</span>
+    <nav aria-label="Footer"><a href="https://www.instagram.com/aiwithzeph" target="_blank" rel="noopener">Instagram</a><a href="https://www.tiktok.com/@aiwithzeph" target="_blank" rel="noopener">TikTok</a><a href="https://www.youtube.com/channel/UCjs5SjkMouRAUNhT8_gWxMQ" target="_blank" rel="noopener">YouTube</a><a href="https://www.facebook.com/1400613896472879" target="_blank" rel="noopener">Facebook</a><a href="https://beacons.ai/aiwithzeph" target="_blank" rel="noopener">All links</a></nav>
+  </div>
+</footer>
+
+<a class="btn btn-yt ytfloat" id="ytfloat" href="https://www.youtube.com/channel/UCjs5SjkMouRAUNhT8_gWxMQ?sub_confirmation=1" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8Z" fill="currentColor"/><path d="M9.6 15.6 15.8 12 9.6 8.4Z" fill="#fff"/></svg>Subscribe</a>
+
+<script>
+(function(){
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* lift sections in as they enter view */
+  const items=document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window && !reduce){
+    const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12,rootMargin:'0px 0px -6% 0px'});
+    items.forEach(el=>io.observe(el));
+  }else{items.forEach(el=>el.classList.add('in'))}
+
+  /* count the hero numbers up once */
+  if(!reduce){document.querySelectorAll('[data-count]').forEach(el=>{
+    const end=+el.dataset.count,t0=performance.now()+700;
+    el.textContent='0';
+    (function tick(now){const p=Math.min(1,Math.max(0,(now-t0)/1300)),e=1-Math.pow(1-p,3);el.textContent=Math.round(end*e);if(p<1)requestAnimationFrame(tick)})(performance.now());
+  })}
+
+  /* Zeph and the floating chips follow the pointer a little */
+  const stage=document.getElementById('stage'),hero=document.querySelector('.hero');
+  if(!reduce&&matchMedia('(hover:hover)').matches){
+    hero.addEventListener('pointermove',e=>{const r=hero.getBoundingClientRect();
+      stage.style.setProperty('--mx',((e.clientX-r.left)/r.width-.5)*2);
+      stage.style.setProperty('--my',((e.clientY-r.top)/r.height-.5)*2)});
+    hero.addEventListener('pointerleave',()=>{stage.style.setProperty('--mx',0);stage.style.setProperty('--my',0)});
+    /* tool cards tilt toward the pointer */
+    document.querySelectorAll('.tool').forEach(c=>{
+      c.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
+        c.style.setProperty('--ry',((x-.5)*12)+'deg');c.style.setProperty('--rx',((.5-y)*10)+'deg');
+        c.style.setProperty('--px',(x*100)+'%');c.style.setProperty('--py',(y*100)+'%')});
+      c.addEventListener('pointerleave',()=>{c.style.setProperty('--rx','0deg');c.style.setProperty('--ry','0deg')});
+    });
+  }
+
+  /* the prompt card types out sample prompts */
+  const term=document.getElementById('term');
+  const samples=[
+    'Write a short email to [name] about [topic]. Keep it under 120 words and end with one clear next step.',
+    'Write 10 opening hooks for a post about [topic]. Each under 12 words. Mix questions and bold claims.',
+    'Plan 5 healthy dinners for [number] people on a budget of [£ amount]. Give one shopping list grouped by aisle.'
+  ];
+  const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+  const paint=(s,caret)=>{term.innerHTML=esc(s).replace(/\[[^\]]*\]?/g,m=>'<span class="v">'+m+'</span>')+(caret?'<span class="caret"></span>':'')};
+  if(!reduce){let i=0,n=0;
+    (function type(){const s=samples[i];
+      if(n<=s.length){paint(s.slice(0,n),true);n++;setTimeout(type,n===1?500:26)}
+      else{setTimeout(()=>{i=(i+1)%samples.length;n=0;type()},3200)}})();
+  }
+
+  /* wind trails inside the visor, Zeph's signature */
+  const c=document.getElementById('wind');
+  if(c&&c.getContext){const x=c.getContext('2d');let w,h,parts=[],t=0;
+    function size(){const d=Math.min(devicePixelRatio||1,2);w=c.clientWidth;h=c.clientHeight;if(!w||!h)return;c.width=w*d;c.height=h*d;x.setTransform(d,0,0,d,0,0);
+      parts=Array.from({length:Math.round(Math.min(90,w*h/3600))},()=>({x:Math.random()*w,y:Math.random()*h,l:Math.random()*200,v:Math.random()}));}
+    function step(){
+      x.globalCompositeOperation='destination-out';x.fillStyle='rgba(0,0,0,.06)';x.fillRect(0,0,w,h);x.globalCompositeOperation='lighter';
+      for(const p of parts){const a=Math.sin(p.x*.006+t*.5)*1.4+Math.cos(p.y*.008-t*.35)*1.2,nx=p.x+Math.cos(a)*1.5+.9,ny=p.y+Math.sin(a)*1.5;
+        x.strokeStyle='rgba('+(p.v<.68?'34,211,238':'168,85,247')+','+(.22+.3*Math.sin(p.l/40))+')';x.lineWidth=1.4;x.beginPath();x.moveTo(p.x,p.y);x.lineTo(nx,ny);x.stroke();
+        p.x=nx;p.y=ny;p.l++;
+        if(p.x>w+10||p.y<-10||p.y>h+10||p.l>260){p.x=Math.random()*w*.6-20;p.y=Math.random()*h;p.l=0;p.v=Math.random()}}
+      t+=.008;}
+    size();addEventListener('resize',size);
+    for(let k=0;k<120;k++)step();
+    if(!reduce){let on=true;
+      if('IntersectionObserver' in window)new IntersectionObserver(e=>{on=e[0].isIntersecting}).observe(c);
+      (function loop(){if(on)step();requestAnimationFrame(loop)})();}
+  }
+
+  /* floating subscribe pill: shows after the hero, hides while a subscribe panel is on screen */
+  const fb=document.getElementById('ytfloat');
+  if(fb&&'IntersectionObserver' in window){let pastHero=false,seen=new Set();
+    const upd=()=>{const on=pastHero&&seen.size===0;fb.classList.toggle('show',on);fb.setAttribute('aria-hidden',on?'false':'true');fb.tabIndex=on?0:-1};
+    new IntersectionObserver(e=>{pastHero=!e[0].isIntersecting;upd()}).observe(document.querySelector('.hero'));
+    const io2=new IntersectionObserver(es=>{es.forEach(e=>e.isIntersecting?seen.add(e.target):seen.delete(e.target));upd()});
+    document.querySelectorAll('.subpanel,.final,footer').forEach(el=>io2.observe(el));
+  }
+})();
+</script>
+</body>
+</html>
