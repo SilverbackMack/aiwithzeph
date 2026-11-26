@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Zeph Song Maker plugin (free)</title>
+<meta name="description" content="Free plugin file from AI with Zeph: give it to Claude and make one finished song: ideas, lyrics, a music prompt, cover art and a lyric video page.">
+<meta property="og:title" content="Zeph Song Maker: the free Claude plugin">
+<meta property="og:description" content="One file. Claude writes the song, the music prompt, the cover and a lyric video page.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--pearl:#F3F3F5;--ink:#0B0C10;--mute:#5D6272;--sig:#FF5A1F;--eye:#5EF0FF}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Plus Jakarta Sans",system-ui,sans-serif;background:linear-gradient(180deg,#F3F3F5,#E4E6EC);color:var(--ink);line-height:1.55;min-height:100vh}
+.wrap{max-width:760px;margin:0 auto;padding:40px 16px 64px}
+a{color:inherit}
+.top{display:flex;justify-content:space-between;align-items:center;font-family:Outfit,sans-serif;font-weight:700;letter-spacing:.04em;font-size:15px;text-transform:uppercase}
+.top a{text-decoration:none}
+.tag{display:inline-block;margin-top:36px;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;background:var(--ink);color:#fff;padding:6px 12px;border-radius:6px}
+.tag b{color:var(--sig)}
+h1{font-family:Outfit,sans-serif;font-size:clamp(36px,8vw,60px);line-height:1;margin:16px 0 14px;letter-spacing:-.02em}
+h1 em{font-style:italic;color:var(--sig)}
+.lead{font-size:18px;color:var(--mute);max-width:600px}
+.visor{position:relative;margin-top:30px;padding:46px 28px 28px;color:#fff;border-radius:44px 44px 56px 56px/34px 34px 46px 46px;background:radial-gradient(120% 90% at 28% 0%,#2B303A 0%,#0D0E12 52%,#030304 100%);box-shadow:inset 0 3px 0 rgba(255,255,255,.2),0 30px 60px rgba(20,24,40,.25)}
+.visor::before,.visor::after{content:"";position:absolute;top:18px;width:26px;height:12px;border:5px solid var(--eye);border-bottom:0;border-radius:26px 26px 0 0;filter:drop-shadow(0 0 6px var(--eye))}.visor::before{right:66px}.visor::after{right:30px}
+.visor h2{font-family:Outfit,sans-serif;font-size:24px;margin-bottom:10px}
+.btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:16px}
+.btn{display:inline-block;font-weight:700;text-decoration:none;padding:14px 22px;border-radius:12px;background:var(--sig);color:#fff;transition:transform .15s}
+.btn.alt{background:#fff;color:var(--ink)}
+.btn:hover{transform:translateY(-2px)}
+ol{margin:12px 0 0 22px}
+ol li{margin:8px 0}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:28px}
+.step{background:#fff;border-radius:18px;padding:18px;box-shadow:0 12px 30px rgba(20,24,40,.08);border-left:6px solid var(--sig)}
+.step b{display:block;font-family:Outfit,sans-serif;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--sig)}
+.note{margin-top:28px;font-size:15px;color:var(--mute);background:#fff;border-radius:14px;padding:16px 18px}
+.sub{margin-top:34px;text-align:center}
+@media (prefers-reduced-motion:no-preference){.visor,.step{animation:up .6s ease-out both}.step:nth-child(2){animation-delay:.08s}.step:nth-child(3){animation-delay:.16s}.step:nth-child(4){animation-delay:.24s}@keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="top"><a href="/">AI with Zeph</a><a href="https://www.youtube.com/channel/UCjs5SjkMouRAUNhT8_gWxMQ?sub_confirmation=1">Subscribe</a></div>
+<span class="tag"><b>&#9679;</b> Free plugin</span>
+<h1>One file. <em>Full song.</em></h1>
+<p class="lead">The Zeph Song Maker turns Claude into a song kit. It gives you ideas, writes the lyrics and a music prompt, draws the cover and builds a lyric video page.</p>
+
+<div class="visor">
+<h2>Get the file</h2>
+<p>Download it, then give it to Claude.</p>
+<div class="btns">
+<a class="btn" href="zeph-song-maker.md" download>Download the plugin (.md)</a>
+<a class="btn alt" href="zeph-song-maker.zip" download>Skill zip</a>
+</div>
+<ol>
+<li>Open a new chat at claude.ai and attach <b>zeph-song-maker.md</b> (or paste its text).</li>
+<li>Type <b>start</b>, pick an idea, then pick the length and speed.</li>
+<li>Reply <b>approved</b> to move to each next step.</li>
+<li>Paste the style prompt and lyrics into a music tool (Suno, Gemini, Google Flow Music or ElevenLabs Music), then type <b>done</b>.</li>
+</ol>
+<p style="margin-top:12px;color:#9AA0AE;font-size:14px">You can also upload the zip as a Skill in Claude's settings, under Capabilities, where your plan allows it.</p>
+</div>
+
+<div class="steps">
+<div class="step"><b>Step 1</b>10 song ideas, real life or story.</div>
+<div class="step"><b>Step 2</b>Lyrics with a hook in the first 20 seconds.</div>
+<div class="step"><b>Step 3</b>A style prompt for your music tool.</div>
+<div class="step"><b>Step 4</b>Cover art and a lyric video page.</div>
+</div>
+
+<p class="note">Honest note: music tools have their own free limits and licences. Check them before you sell a song. In my test, Gemini made a 3-minute song from 1 minute of lyrics and gave it its own title.</p>
+
+<div class="sub"><a class="btn" href="https://www.youtube.com/channel/UCjs5SjkMouRAUNhT8_gWxMQ?sub_confirmation=1">Subscribe to AI with Zeph</a></div>
+</div>
+</body>
+</html>
